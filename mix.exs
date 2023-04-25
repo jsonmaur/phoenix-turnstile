@@ -49,6 +49,9 @@ defmodule PhoenixTurnstile.MixProject do
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:exvcr, "~> 0.11", only: :test, runtime: false},
       {:jason, "~> 1.0"},
+      {:makeup_eex, "~> 0.1", only: :dev, runtime: false},
+      {:makeup_html, "~> 0.1", only: :dev, runtime: false},
+      {:makeup_js, "~> 0.1", only: :dev, runtime: false},
       {:phoenix_live_view, "~> 0.17", optional: true}
     ]
   end
