@@ -7,7 +7,7 @@ Phoenix components and helpers for using CAPTCHAs with [Cloudflare Turnstile](ht
 ```elixir
 def deps do
   [
-    {:phoenix_turnstile, "~> 1.0"}
+    {:phoenix_turnstile, "~> 1.1"}
   ]
 end
 ```
