@@ -6,7 +6,7 @@ defmodule PhoenixTurnstile.MixProject do
   def project do
     [
       app: :phoenix_turnstile,
-      version: "1.0.0",
+      version: "1.0.1",
       elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -18,7 +18,17 @@ defmodule PhoenixTurnstile.MixProject do
       authors: ["Jason Maurer"],
       package: [
         licenses: ["MIT"],
-        links: %{"GitHub" => @url}
+        links: %{"GitHub" => @url},
+        files: [
+          "lib",
+          "priv",
+          ".formatter.exs",
+          "mix.exs",
+          "package.json",
+          "README.md",
+          "LICENSE",
+          "CHANGELOG.md"
+        ]
       ],
       docs: [
         main: "readme",
