@@ -7,7 +7,7 @@ Phoenix components and helpers for using CAPTCHAs with [Cloudflare Turnstile](ht
 ```elixir
 def deps do
   [
-    {:phoenix_turnstile, "~> 1.1"}
+    {:phoenix_turnstile, "~> 1.0"}
   ]
 end
 ```
@@ -192,7 +192,7 @@ If your site uses a content security policy, you'll need to add `https://challen
 
 When testing forms that use Turnstile verification, you may or may not want to call the live API.
 
-Although we use the test keys by default, you should consider using mocks during testing. An excellent library to consider is [mox](https://github.com/dashbitco/mox). Phoenix Turnstile exposes a behaviour that you can use to make writing your tests much easier.
+Although we use the test keys by default, you should consider using mocks during testing. An excellent library to consider is [mox](https://github.com/dashbitco/mox). Phoenix Turnstile exposes [`Turnstile.Behavior`](Turnstile.Behaviour.html) which makes writing tests much easier.
 
 To start using Mox with Phoenix Turnstile, add this to your `test/test_helper.ex`:
 

@@ -6,7 +6,7 @@ defmodule PhoenixTurnstile.MixProject do
   def project do
     [
       app: :phoenix_turnstile,
-      version: "1.1.0",
+      version: "1.1.1",
       elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -52,7 +52,7 @@ defmodule PhoenixTurnstile.MixProject do
       {:makeup_eex, "~> 0.1", only: :dev, runtime: false},
       {:makeup_html, "~> 0.1", only: :dev, runtime: false},
       {:makeup_js, "~> 0.1", only: :dev, runtime: false},
-      {:phoenix_live_view, "~> 0.17", optional: true}
+      {:phoenix_live_view, "~> 0.17"}
     ]
   end
 

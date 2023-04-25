@@ -1,3 +1,7 @@
+## v1.1.1
+
+- Make Phoenix Live View a non-optional dependency
+
 ## v1.1.0
 
 - Don't handle `updated` and `destroyed` hook events, `phx-update` is set to `ignore`
