@@ -1,0 +1,15 @@
+[
+  {
+    "request": {
+      "method": "post",
+      "url": "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+    },
+    "response": {
+      "status_code": ["HTTP/1.1", 500, "Bad Request"],
+      "headers": {
+        "content-type": "text/plain"
+      },
+      "body": "everything broke"
+    }
+  }
+]

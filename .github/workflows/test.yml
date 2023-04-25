@@ -39,4 +39,4 @@ jobs:
           mix-build-${{ runner.os }}-
 
     - run: mix deps.get
-    - run: mix test
+    - run: mix test --include external

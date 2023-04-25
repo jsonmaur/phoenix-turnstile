@@ -14,7 +14,7 @@ defmodule PhoenixTurnstile.MixProject do
       aliases: aliases(),
       source_url: @url,
       homepage_url: "#{@url}#readme",
-      description: "",
+      description: "Use Cloudflare Turnstile in Phoenix apps",
       authors: ["Jason Maurer"],
       package: [
         licenses: ["MIT"],
@@ -29,13 +29,17 @@ defmodule PhoenixTurnstile.MixProject do
 
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :inets, :ssl]
     ]
   end
 
   defp deps do
     [
-      {:ex_doc, "~> 0.27", only: :dev, runtime: false}
+      {:certifi, "~> 2.0"},
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false},
+      {:exvcr, "~> 0.11", only: :test, runtime: false},
+      {:jason, "~> 1.0"},
+      {:phoenix_live_view, "~> 0.17", optional: true}
     ]
   end
 
