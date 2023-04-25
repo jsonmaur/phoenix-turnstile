@@ -1,6 +1,6 @@
 <a href="https://github.com/jsonmaur/phoenix-turnstile/actions/workflows/test.yml"><img alt="Test Status" src="https://img.shields.io/github/actions/workflow/status/jsonmaur/phoenix-turnstile/test.yml?label=&style=for-the-badge&logo=github"></a> <a href="https://hexdocs.pm/phoenix_turnstile/"><img alt="Hex Version" src="https://img.shields.io/hexpm/v/phoenix_turnstile?style=for-the-badge&label=&logo=elixir" /></a>
 
-Components and helpers for using [Cloudflare Turnstile CAPTCHAs](https://www.cloudflare.com/products/turnstile/) in Phoenix apps. To get started, log into the Cloudflare dashboard and visit the Turnstile tab. Add a new site with your domain name (no need to add `localhost` if using the default test keys), and take note of your site key and secret key. You'll need these values later.
+Phoenix components and helpers for using CAPTCHAs with [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/). To get started, log into the Cloudflare dashboard and visit the Turnstile tab. Add a new site with your domain name (no need to add `localhost` if using the default test keys), and take note of your site key and secret key. You'll need these values later.
 
 ## Getting Started
 
@@ -104,6 +104,32 @@ def handle_event("submit", values, socket) do
   case Turnstile.verify(values, socket.assigns.remote_ip) do
     # ...
   end
+end
+```
+
+### Events
+
+The Turnstile widget supports the following events:
+
+* `:success` - When the challenge was successfully completed
+* `:error` - When there was an error (like a network error or the challenge failed)
+* `:expired` - When the challenge token expires and was not automatically reset
+* `:beforeInteractive` - Before the challenge enters interactive mode
+* `:afterInteractive` - After the challenge has left interactive mode
+* `:unsupported` - When a given client/browser is not supported by Turnstile
+* `:timeout` - When the challenge expires (after 5 minutes)
+
+These can be useful for doing things like disabling the submit button until the challenge successfully completes, or refreshing the widget if it fails. To handle an event, add it to the `events` attribute and create a Turnstile event handler in the Live View:
+
+```heex
+<Turnstile.widget events={[:success]} />
+```
+
+```elixir
+handle_event("turnstile:success", _params, socket) do
+  # ...
+
+  {:noreply, socket}
 end
 ```
 

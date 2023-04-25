@@ -57,6 +57,11 @@ defmodule TurnstileTest do
       assert render_component(&Turnstile.widget/1, theme: "dark") ==
                "<div id=\"cf-turnstile\" phx-hook=\"Turnstile\" phx-update=\"ignore\" data-sitekey=\"1x00000000000000000000AA\" data-theme=\"dark\"></div>"
     end
+
+    test "should render component with a list of events" do
+      assert render_component(&Turnstile.widget/1, events: [:success, :error]) ==
+               "<div id=\"cf-turnstile\" phx-hook=\"Turnstile\" phx-update=\"ignore\" data-sitekey=\"1x00000000000000000000AA\" data-events=\"success,error\"></div>"
+    end
   end
 
   test "refresh/2" do

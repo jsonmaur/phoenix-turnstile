@@ -1,7 +1,7 @@
 defmodule Turnstile do
   @behaviour Turnstile.Behaviour
   @moduledoc """
-  Use Cloudflare Turnstile in Phoenix apps
+  Use Cloudflare Turnstile in Phoenix
   """
 
   import Phoenix.Component
@@ -49,6 +49,7 @@ defmodule Turnstile do
     * `:class` - The class name passed to the element. Defaults to `nil`.
     * `:hook` - The phx-hook used. Defaults to `"Turnstile"`.
     * `:sitekey` - The Turnstile site key. Defaults to the `:site_key` config value.
+    * `:events` - An atom list of the callback events to listen for for in the Live View. See [events](readme.html#events).
 
   All other attributes will be passed through to the element as `data-*` attributes so the widget
   can be customized. See the [Turnstile docs](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations)
@@ -57,15 +58,25 @@ defmodule Turnstile do
   def widget(assigns) do
     rest =
       assigns
-      |> assigns_to_attributes([:id, :class, :hook, :sitekey])
+      |> assigns_to_attributes([:id, :class, :hook, :sitekey, :events])
       |> Enum.map(fn {k, v} -> {"data-#{k}", v} end)
       |> Keyword.put(:class, assigns[:class])
+
+    events =
+      assigns
+      |> Map.get(:events, [])
+      |> Enum.join(",")
+      |> case do
+        "" -> nil
+        value -> value
+      end
 
     assigns =
       assigns
       |> assign_new(:id, fn -> "cf-turnstile" end)
       |> assign_new(:hook, fn -> "Turnstile" end)
       |> assign_new(:sitekey, &site_key/0)
+      |> assign(:events, events)
       |> assign(:rest, rest)
 
     ~H"""
@@ -74,6 +85,7 @@ defmodule Turnstile do
       phx-hook={@hook}
       phx-update="ignore"
       data-sitekey={@sitekey}
+      data-events={@events}
       {@rest}
     />
     """

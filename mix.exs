@@ -14,7 +14,7 @@ defmodule PhoenixTurnstile.MixProject do
       aliases: aliases(),
       source_url: @url,
       homepage_url: "#{@url}#readme",
-      description: "Use Cloudflare Turnstile in Phoenix apps",
+      description: "Use Cloudflare Turnstile in Phoenix",
       authors: ["Jason Maurer"],
       package: [
         licenses: ["MIT"],
