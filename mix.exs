@@ -19,16 +19,7 @@ defmodule PhoenixTurnstile.MixProject do
       package: [
         licenses: ["MIT"],
         links: %{"GitHub" => @url},
-        files: [
-          "lib",
-          "priv",
-          ".formatter.exs",
-          "mix.exs",
-          "package.json",
-          "README.md",
-          "LICENSE",
-          "CHANGELOG.md"
-        ]
+        files: ~w(lib priv .formatter.exs CHANGELOG.md LICENSE mix.exs package.json README.md)
       ],
       docs: [
         main: "readme",
