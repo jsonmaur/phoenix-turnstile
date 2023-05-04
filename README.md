@@ -1,8 +1,16 @@
-<a href="https://github.com/jsonmaur/phoenix-turnstile/actions/workflows/test.yml"><img alt="Test Status" src="https://img.shields.io/github/actions/workflow/status/jsonmaur/phoenix-turnstile/test.yml?label=&style=for-the-badge&logo=github"></a> <a href="https://hexdocs.pm/phoenix_turnstile/"><img alt="Hex Version" src="https://img.shields.io/hexpm/v/phoenix_turnstile?style=for-the-badge&label=&logo=elixir" /></a>
+# Phoenix Turnstile
 
-Phoenix components and helpers for using CAPTCHAs with [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/). To get started, log into the Cloudflare dashboard and visit the Turnstile tab. Add a new site with your domain name (no need to add `localhost` if using the default test keys), and take note of your site key and secret key. You'll need these values later.
+Phoenix components and helpers for using CAPTCHAs with [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/). Before getting started, log into the Cloudflare dashboard and visit the Turnstile tab. Add a new site with your domain name (no need to add `localhost` if using the default test keys), and take note of your site key and secret key. You'll need these values later.
 
-## Getting Started
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Verification](#verification)
+- [Events](#events)
+- [Without LiveView](#without-liveview)
+- [Content Security Policies](#content-security-policies)
+- [Writing Tests](#writing-tests)
+
+## Installation
 
 ```elixir
 def deps do
@@ -22,9 +30,9 @@ config :phoenix_turnstile,
 
 You don't need to add a site key or secret key for dev/test environments. This library will use the Turnstile test keys by default.
 
-## With Live View
+## Getting Started
 
-To use CAPTCHAs in a Live View app, start out by adding the script component in your root layout:
+To use CAPTCHAs in a LiveView app, start out by adding the script component in your root layout:
 
 ```heex
 <head>
@@ -59,7 +67,11 @@ Now you can use the Turnstile widget component in any of your forms. For example
 
 To customize the widget, pass any of the render parameters [specificed here](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations) (without the `data-` prefix).
 
-### Verification
+### Multiple Widgets
+
+If you want to have multiple widgets on the same page, pass a unique ID to `Turnstile.widget/1`, `Turnstile.refresh/1`, and `Turnstile.remove/1`.
+
+## Verification
 
 The widget by itself won't actually complete the verification. It works by generating a token which gets injected into your form as a hidden input named `cf-turnstile-response`. The token needs to be sent to the Cloudflare API for final verification before continuing with the form submission. This should be done in your submit event using `Turnstile.verify/2`:
 
@@ -82,7 +94,7 @@ def handle_event("submit", values, socket) do
 end
 ```
 
-To be extra sure the user is not a robot, you also have the option of passing their IP address to the verification API. **This step is optional.** To get the user's IP address in Live View, add `:peer_data` to the connect info for your socket in `endpoint.ex`:
+To be extra sure the user is not a robot, you also have the option of passing their IP address to the verification API. **This step is optional.** To get the user's IP address in LiveView, add `:peer_data` to the connect info for your socket in `endpoint.ex`:
 
 ```elixir
 socket "/live", Phoenix.LiveView.Socket,
@@ -96,7 +108,6 @@ and pass it as the second argument to `Turnstile.verify/2`:
 ```elixir
 def mount(_params, session, socket) do
   remote_ip = get_connect_info(socket, :peer_data).address
-
   {:ok, assign(socket, :remote_ip, remote_ip)}
 end
 
@@ -107,7 +118,7 @@ def handle_event("submit", values, socket) do
 end
 ```
 
-### Events
+## Events
 
 The Turnstile widget supports the following events:
 
@@ -119,7 +130,7 @@ The Turnstile widget supports the following events:
 * `:unsupported` - When a given client/browser is not supported by Turnstile
 * `:timeout` - When the challenge expires (after 5 minutes)
 
-These can be useful for doing things like disabling the submit button until the challenge successfully completes, or refreshing the widget if it fails. To handle an event, add it to the `events` attribute and create a Turnstile event handler in the Live View:
+These can be useful for doing things like disabling the submit button until the challenge successfully completes, or refreshing the widget if it fails. To handle an event, add it to the `events` attribute and create a Turnstile event handler in the LiveView:
 
 ```heex
 <Turnstile.widget events={[:success]} />
@@ -133,13 +144,9 @@ handle_event("turnstile:success", _params, socket) do
 end
 ```
 
-### Multiple Widgets
+## Without LiveView
 
-If you want to have multiple widgets on the same page, pass a unique ID to `Turnstile.widget/1`, `Turnstile.refresh/1`, and `Turnstile.remove/1`.
-
-## Without Live View
-
-`Turnstile.script/1` and `Turnstile.widget/1` both rely on [client hooks](https://hexdocs.pm/phoenix_live_view/js-interop.html#client-hooks-via-phx-hook), and should work in non-Live View pages as long as `app.js` is opening a live socket (which it should by default). Simply call `Turnstile.verify/2` in the controller:
+`Turnstile.script/1` and `Turnstile.widget/1` both rely on [client hooks](https://hexdocs.pm/phoenix_live_view/js-interop.html#client-hooks-via-phx-hook), and should work in non-LiveView pages as long as `app.js` is opening a live socket (which it should by default). Simply call `Turnstile.verify/2` in the controller:
 
 ```elixir
 def create(conn, params) do

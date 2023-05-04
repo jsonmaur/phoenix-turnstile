@@ -1,7 +1,7 @@
 defmodule Turnstile do
   @behaviour Turnstile.Behaviour
   @moduledoc """
-  Use Cloudflare Turnstile in Phoenix
+  Use Cloudflare Turnstile in Phoenix. Check out the [README](readme.html) to get started.
   """
 
   import Phoenix.Component

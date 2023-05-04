@@ -15,7 +15,6 @@ defmodule PhoenixTurnstile.MixProject do
       source_url: @url,
       homepage_url: "#{@url}#readme",
       description: "Use Cloudflare Turnstile in Phoenix",
-      authors: ["Jason Maurer"],
       package: [
         licenses: ["MIT"],
         links: %{"GitHub" => @url},
@@ -23,7 +22,8 @@ defmodule PhoenixTurnstile.MixProject do
       ],
       docs: [
         main: "readme",
-        extras: ["README.md"]
+        extras: ["README.md"],
+        authors: ["Jason Maurer"]
       ]
     ]
   end
@@ -40,9 +40,9 @@ defmodule PhoenixTurnstile.MixProject do
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:exvcr, "~> 0.11", only: :test, runtime: false},
       {:jason, "~> 1.0"},
-      {:makeup_eex, "~> 0.1", only: :dev, runtime: false},
-      {:makeup_html, "~> 0.1", only: :dev, runtime: false},
-      {:makeup_js, "~> 0.1", only: :dev, runtime: false},
+      {:makeup_eex, "~> 0.1", only: :dev},
+      {:makeup_html, "~> 0.1", only: :dev},
+      {:makeup_js, "~> 0.1", only: :dev},
       {:phoenix_live_view, "~> 0.17"}
     ]
   end
