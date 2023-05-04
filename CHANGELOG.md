@@ -1,3 +1,8 @@
+## v1.1.2
+
+- Update documentation things
+- Fix some metadata in package
+
 ## v1.1.1
 
 - Make Phoenix Live View a non-optional dependency
