@@ -166,9 +166,9 @@ defmodule Turnstile do
 
   defp ssl_opts do
     [
-      depth: 99,
+      depth: 3,
       verify: :verify_peer,
-      cacerts: :certifi.cacerts(),
+      cacertfile: CAStore.file_path(),
       customize_hostname_check: [
         match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
       ]
