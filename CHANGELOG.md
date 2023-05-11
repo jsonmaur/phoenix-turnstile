@@ -1,3 +1,7 @@
+## v1.1.3
+
+- Use `castore` dependency instead of `certifi`
+
 ## v1.1.2
 
 - Update documentation things
