@@ -46,7 +46,7 @@ export const TurnstileHook = {
 
     if (typeof turnstile === "undefined") {
       intervalId = setInterval(() => {
-        if (turnstile) {
+        if (typeof turnstile !== "undefined") {
           setupTurnstile.call(this)
           clearInterval(intervalId)
         }
