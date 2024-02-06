@@ -40,6 +40,8 @@ function setupTurnstile() {
   })
 }
 
+const intervalTime = 250
+
 export const TurnstileHook = {
   mounted() {
     let intervalId
@@ -50,7 +52,7 @@ export const TurnstileHook = {
           setupTurnstile.call(this)
           clearInterval(intervalId)
         }
-      }, 250)
+      }, intervalTime)
     } else {
       setupTurnstile.call(this)
     }
