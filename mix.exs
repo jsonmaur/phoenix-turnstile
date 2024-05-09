@@ -1,12 +1,12 @@
 defmodule PhoenixTurnstile.MixProject do
   use Mix.Project
 
-  @url "https://github.com/jsonmaur/phoenix-turnstile"
+  @url "https://github.com/payout_one/phoenix-turnstile"
 
   def project do
     [
       app: :phoenix_turnstile,
-      version: "1.1.3",
+      version: "2.1.4",
       elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -18,6 +18,7 @@ defmodule PhoenixTurnstile.MixProject do
       package: [
         licenses: ["MIT"],
         links: %{"GitHub" => @url},
+        organization: "payout",
         files: ~w(lib priv .formatter.exs CHANGELOG.md LICENSE mix.exs package.json README.md)
       ],
       docs: [

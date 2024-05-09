@@ -8,6 +8,8 @@ defmodule Turnstile do
 
   alias Phoenix.LiveView
 
+  require Logger
+
   @script_url "https://challenges.cloudflare.com/turnstile/v0/api.js"
   @verify_url "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
@@ -125,7 +127,9 @@ defmodule Turnstile do
   security when running the verification, but is optional. Returns `{:ok, response}` if the
   verification succeeded, or `{:error, reason}` if the verification failed.
   """
-  def verify(%{"cf-turnstile-response" => turnstile_response}, remoteip \\ nil) do
+  def verify(response, remoteip \\ nil)
+
+  def verify(%{"cf-turnstile-response" => turnstile_response}, remoteip) do
     body = encode_body!(turnstile_response, remoteip)
     headers = [{to_charlist("accept"), to_charlist("application/json")}]
     request = {to_charlist(@verify_url), headers, to_charlist("application/json"), body}
@@ -146,6 +150,12 @@ defmodule Turnstile do
       {:error, error} ->
         {:error, error}
     end
+  end
+
+  def verify(%{"email" => email}, remoteip) do
+    Logger.warning(
+      "Turnstile :: No cf-turnstile-response, propably bot registration with email #{email} and ip #{remoteip}"
+    )
   end
 
   defp encode_body!(response, remoteip) when is_tuple(remoteip) do
