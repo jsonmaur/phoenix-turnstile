@@ -74,7 +74,7 @@ defmodule TurnstileTest do
 
   describe "verify/2" do
     test "should return successful status" do
-      use_cassette("turnstile_success", custom: true) do
+      use_cassette "turnstile_success", custom: true do
         assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}) == {:ok, %{"success" => true}}
       end
     end
