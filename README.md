@@ -112,7 +112,27 @@ def mount(_params, session, socket) do
 end
 
 def handle_event("submit", values, socket) do
-  case Turnstile.verify(values, socket.assigns.remote_ip) do
+  case Turnstile.verify(values, remote_ip: socket.assigns.remote_ip) do
+    # ...
+  end
+end
+```
+
+### Idempotent verification requests
+
+Cloudflare requires an idempotency key to be passed in for repetitive verification. You can generate a UUID and stash the value in the socket for use in verify.
+
+```elixir
+def mount(_params, session, socket) do
+  remote_ip = get_connect_info(socket, :peer_data).address
+
+  # if you don't use Ecto, you will need to generate a unique token another way.
+  uuid = Ecto.UUIC.generate
+  {:ok, assign(socket, remote_ip: remote_ip, idempotency_key: uuid)}
+end
+
+def handle_event("submit", values, socket) do
+  case Turnstile.verify(values, remote_ip: socket.assigns.remote_ip, idempotency_key: socket.assigns.idempotency_key) do
     # ...
   end
 end

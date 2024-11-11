@@ -87,13 +87,29 @@ defmodule TurnstileTest do
 
     test "should return successful status with charlist ip" do
       use_cassette "turnstile_success", custom: true do
-        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, '127.0.0.1') == {:ok, %{"success" => true}}
+        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, ~c"127.0.0.1") == {:ok, %{"success" => true}}
       end
     end
 
     test "should return successful status with tuple ip" do
       use_cassette "turnstile_success", custom: true do
         assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, {127, 0, 0, 1}) == {:ok, %{"success" => true}}
+      end
+    end
+
+    test "should return successful status with keyword options" do
+      use_cassette "turnstile_success", custom: true do
+        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, remote_ip: {127, 0, 0, 1}) ==
+                 {:ok, %{"success" => true}}
+      end
+    end
+
+    test "should return successful status with idempotency_key" do
+      use_cassette "turnstile_success", custom: true do
+        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"},
+                 remote_ip: {127, 0, 0, 1},
+                 idempotency_key: "54a814b1-5aed-4f5b-9b41-349ff415a73d"
+               ) == {:ok, %{"success" => true}}
       end
     end
 
