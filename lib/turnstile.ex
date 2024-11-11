@@ -125,8 +125,18 @@ defmodule Turnstile do
   security when running the verification, but is optional. Returns `{:ok, response}` if the
   verification succeeded, or `{:error, reason}` if the verification failed.
   """
-  def verify(%{"cf-turnstile-response" => turnstile_response}, remoteip \\ nil) do
-    body = encode_body!(turnstile_response, remoteip)
+  def verify(params, opts \\ [])
+
+  def verify(%{"cf-turnstile-response" => turnstile_response}, opts) when is_list(opts) do
+    body =
+      if Keyword.keyword?(opts) do
+        remote_ip = Keyword.get(opts, :remote_ip)
+        idempotency_key = Keyword.get(opts, :idempotency_key)
+        encode_body!(turnstile_response, remote_ip, idempotency_key)
+      else
+        encode_body!(turnstile_response, to_string(opts))
+      end
+
     headers = [{to_charlist("accept"), to_charlist("application/json")}]
     request = {to_charlist(@verify_url), headers, to_charlist("application/json"), body}
 
@@ -148,16 +158,22 @@ defmodule Turnstile do
     end
   end
 
-  defp encode_body!(response, remoteip) when is_tuple(remoteip) do
-    encode_body!(response, :inet_parse.ntoa(remoteip) |> to_string())
+  def verify(%{"cf-turnstile-response" => _} = params, remoteip) do
+    verify(params, remote_ip: remoteip)
   end
 
-  defp encode_body!(response, remoteip) when is_list(remoteip) do
-    encode_body!(response, to_string(remoteip))
+  defp encode_body!(response, remoteip, idempotency_key \\ nil)
+
+  defp encode_body!(response, remoteip, idempotency_key) when is_tuple(remoteip) do
+    encode_body!(response, :inet_parse.ntoa(remoteip) |> to_string(), idempotency_key)
   end
 
-  defp encode_body!(response, remoteip) do
-    %{response: response, remoteip: remoteip, secret: secret_key()}
+  defp encode_body!(response, remoteip, idempotency_key) when is_list(remoteip) do
+    encode_body!(response, to_string(remoteip), idempotency_key)
+  end
+
+  defp encode_body!(response, remoteip, idempotency_key) do
+    %{response: response, remoteip: remoteip, secret: secret_key(), idempotency_key: idempotency_key}
     |> Enum.reject(fn {_, v} -> is_nil(v) end)
     |> Enum.into(%{})
     |> Jason.encode!()
