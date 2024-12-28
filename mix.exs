@@ -43,7 +43,7 @@ defmodule PhoenixTurnstile.MixProject do
       {:makeup_eex, "~> 0.1", only: :dev},
       {:makeup_html, "~> 0.1", only: :dev},
       {:makeup_js, "~> 0.1", only: :dev},
-      {:phoenix_live_view, "~> 0.17"}
+      {:phoenix_live_view, "~> 1.0"}
     ]
   end
 
