@@ -6,7 +6,7 @@ defmodule PhoenixTurnstile.MixProject do
   def project do
     [
       app: :phoenix_turnstile,
-      version: "1.1.3",
+      version: "1.2.0",
       elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
