@@ -1,3 +1,8 @@
+## v1.2.0
+
+- Upgrades dependencies, including Phoenix LiveView 1.0
+- Add missing fields to package.json that were causing issues
+
 ## v1.1.3
 
 - Use `castore` dependency instead of `certifi`
