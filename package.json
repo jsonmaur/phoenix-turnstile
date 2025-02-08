@@ -1,3 +1,5 @@
 {
+  "name": "phoenix-turnstile",
+  "version": "1.2.0",
   "main": "priv/static/phoenix_turnstile.js"
 }

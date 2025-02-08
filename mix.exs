@@ -6,7 +6,7 @@ defmodule PhoenixTurnstile.MixProject do
   def project do
     [
       app: :phoenix_turnstile,
-      version: "1.1.3",
+      version: "1.2.0",
       elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -37,13 +37,13 @@ defmodule PhoenixTurnstile.MixProject do
   defp deps do
     [
       {:castore, "~> 0.1 or ~> 1.0"},
-      {:ex_doc, "~> 0.27", only: :dev, runtime: false},
-      {:exvcr, "~> 0.11", only: :test, runtime: false},
+      {:ex_doc, "~> 0.37", only: :dev, runtime: false},
+      {:exvcr, "~> 0.15", only: :test, runtime: false},
       {:jason, "~> 1.0"},
-      {:makeup_eex, "~> 0.1", only: :dev},
+      {:makeup_eex, "~> 2.0", only: :dev},
       {:makeup_html, "~> 0.1", only: :dev},
       {:makeup_js, "~> 0.1", only: :dev},
-      {:phoenix_live_view, "~> 0.17"}
+      {:phoenix_live_view, "~> 1.0"}
     ]
   end
 

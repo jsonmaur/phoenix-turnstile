@@ -87,7 +87,7 @@ defmodule TurnstileTest do
 
     test "should return successful status with charlist ip" do
       use_cassette "turnstile_success", custom: true do
-        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, '127.0.0.1') == {:ok, %{"success" => true}}
+        assert Turnstile.verify(%{"cf-turnstile-response" => "foo"}, ~c"127.0.0.1") == {:ok, %{"success" => true}}
       end
     end
 
